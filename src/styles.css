@@ -1,0 +1,421 @@
+/* 디자인 토큰 — 배경 #1E2126(주철), 텍스트 #F2EFE9(초크), 배지 색은 데모 시리즈 공통 팔레트 */
+:root {
+  --bg: #1e2126;
+  --surface: #282b31;
+  --surface-2: #33373e;
+  --border: #3a3e45;
+  --text: #f2efe9;
+  --text-dim: #b8b4ac;
+  --muted: #6b6e75;
+  --accent: #e4574b;
+  --font-body: "Noto Sans KR", sans-serif;
+  --font-display: "Black Han Sans", "Noto Sans KR", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  overscroll-behavior-y: none;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.btn {
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ─── 앱 프레임 ─── */
+.app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  padding: calc(20px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom));
+}
+
+/* ─── 헤더 ─── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-logo {
+  font-size: 24px;
+  letter-spacing: 1px;
+}
+
+.header-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.tab {
+  padding: 8px 12px;
+  font-size: 13.5px;
+  background: var(--surface);
+  color: var(--text-dim);
+}
+
+.tab--active {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+/* ─── 홈 화면 추가 안내 배너 ─── */
+.install-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+
+.install-hint-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.install-hint-text b {
+  color: var(--text);
+}
+
+.install-hint-close {
+  margin-left: auto;
+  background: none;
+  color: var(--muted);
+  font-size: 15px;
+  padding: 4px 8px;
+}
+
+/* ─── 기기 요약 카드 ─── */
+.device-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 16px;
+  margin-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.device-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+
+.device-total {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.device-info {
+  font-size: 12.5px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.device-hint {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.device-copy {
+  align-self: flex-start;
+  padding: 9px 14px;
+  font-size: 13px;
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+/* ─── 능력 카드 ─── */
+.list-label {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.cap-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cap-group .cap-card + .cap-card {
+  margin-top: 8px;
+}
+
+.cap-card {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cap-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cap-name {
+  font-size: 15.5px;
+  font-weight: 700;
+}
+
+.cap-kind {
+  font-size: 10.5px;
+  font-weight: 700;
+  border: 1px solid;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.cap-status {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.cap-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.cap-note {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.cap-action {
+  align-self: flex-start;
+  padding: 9px 14px;
+  font-size: 13px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.cap-action--download {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.cap-result {
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cap-result-meta {
+  font-size: 12px;
+  font-weight: 700;
+  color: #57a867;
+}
+
+.cap-result--err .cap-result-meta {
+  color: var(--accent);
+}
+
+.cap-result-output {
+  font-size: 13.5px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.foot-note {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 4px 0 8px;
+}
+
+/* ─── 문의 (add-card 공용) ─── */
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.input--textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.add-card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 18px 16px;
+  margin-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.add-title {
+  font-size: 19px;
+}
+
+.add-submit {
+  padding: 13px;
+  font-size: 15px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.contact-desc {
+  font-size: 13.5px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.contact-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.contact-result {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.contact-result--ok {
+  color: #57a867;
+}
+
+.contact-result--err {
+  color: var(--accent);
+}
+
+/* ─── 시리즈 링크 ─── */
+.series {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.series-title {
+  font-size: 12.5px;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 2px;
+}
+
+.series-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 12px 14px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.series-item-name {
+  font-weight: 700;
+  font-size: 14.5px;
+  flex-shrink: 0;
+}
+
+.series-item-desc {
+  font-size: 12.5px;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.series-item-arrow {
+  margin-left: auto;
+  color: var(--muted);
+}
+
+.series-repo {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 6px;
+}
