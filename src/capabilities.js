@@ -11,6 +11,8 @@ export const CAPS = [
     api: "LanguageModel",
     kind: "stable",
     desc: "범용 온디바이스 LLM(Chrome은 Gemini Nano, Edge는 Phi 계열) — 자유 질문·지시 처리",
+    hint: "데스크톱 Chrome 148+ / Edge 최신 — 여유 저장공간 22GB, RAM 16GB(또는 GPU VRAM 4GB) 필요. iPhone·iPad·Safari는 아직 미지원 (2026-07 기준)",
+    unavailableTip: "Chrome인데 불가라면: 저장공간·RAM 요건을 확인하고 chrome://components 에서 'Optimization Guide On Device Model' 업데이트 상태를 확인해 보세요",
   },
   {
     id: "summarizer",
@@ -18,6 +20,8 @@ export const CAPS = [
     api: "Summarizer",
     kind: "stable",
     desc: "텍스트 요약 전용",
+    hint: "데스크톱 Chrome 138+ — Prompt API와 같은 Gemini Nano 기반이라 요건 동일(저장공간 22GB·RAM 16GB). 모바일·Safari 미지원",
+    unavailableTip: "Chrome인데 불가라면: 저장공간·RAM 요건 확인 후 chrome://components 의 On Device Model 업데이트를 확인해 보세요",
   },
   {
     id: "translator",
@@ -25,6 +29,8 @@ export const CAPS = [
     api: "Translator",
     kind: "stable",
     desc: "언어쌍별 번역 팩 — 한국어→영어 기준으로 진단",
+    hint: "데스크톱 Chrome 138+ — 언어쌍마다 번역 팩(수십 MB)을 내려받아 사용. 모바일·Safari 미지원",
+    unavailableTip: "Chrome인데 불가라면: chrome://on-device-translation-internals 에서 언어팩 상태를 확인해 보세요",
   },
   {
     id: "detector",
@@ -32,6 +38,7 @@ export const CAPS = [
     api: "LanguageDetector",
     kind: "stable",
     desc: "입력 텍스트의 언어 감지",
+    hint: "데스크톱 Chrome 138+ — 소형 감지 모델 사용. 모바일·Safari 미지원",
   },
   {
     id: "writer",
@@ -39,6 +46,7 @@ export const CAPS = [
     api: "Writer",
     kind: "trial",
     desc: "새 글 생성(오리진 트라이얼 — 토큰 없인 대부분 미노출)",
+    hint: "아직 오리진 트라이얼 — 개발자가 사이트별 토큰을 등록한 사이트에서만 열립니다. 일반 사이트에서 'API 없음'은 정상",
   },
   {
     id: "rewriter",
@@ -46,6 +54,7 @@ export const CAPS = [
     api: "Rewriter",
     kind: "trial",
     desc: "말투·길이 바꿔쓰기(오리진 트라이얼)",
+    hint: "아직 오리진 트라이얼 — 토큰 등록 사이트에서만 열립니다. 'API 없음'은 정상",
   },
   {
     id: "proofreader",
@@ -53,18 +62,21 @@ export const CAPS = [
     api: "Proofreader",
     kind: "trial",
     desc: "교정·문법 검사(오리진 트라이얼)",
+    hint: "아직 오리진 트라이얼 — 토큰 등록 사이트에서만 열립니다. 'API 없음'은 정상",
   },
   {
     id: "webgpu",
     name: "WebGPU",
     kind: "base",
     desc: "브라우저에서 GPU 연산 — WebLLM류(모델 직접 다운로드형) 실행의 기반",
+    hint: "최신 브라우저 대부분 지원 — Chrome/Edge 113+, Safari 26+, Firefox 최신. 구형 기기·기업 보안 정책 환경에선 막혀 있을 수 있음",
   },
   {
     id: "webnn",
     name: "WebNN",
     kind: "base",
     desc: "신경망 가속 표준(초기 단계) — navigator.ml",
+    hint: "표준 초기 단계 — Chrome/Edge 실험 플래그(#web-machine-learning-neural-network) 뒤에서만 동작. 미지원이 정상",
   },
 ];
 

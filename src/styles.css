@@ -517,3 +517,18 @@ button {
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+/* ─── 사용 불가 항목의 플랫폼 힌트 ─── */
+.cap-hint {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 8px 10px;
+  word-break: keep-all;
+}
+
+.cap-hint--tip {
+  color: var(--muted);
+}

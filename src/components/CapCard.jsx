@@ -26,6 +26,14 @@ export default function CapCard({ cap, status, test, downloading, onTest, onDown
       <div className="cap-desc">{cap.desc}</div>
       {status?.note && <div className="cap-note">{status.note}</div>}
 
+      {/* 사용 불가 항목: 어디서 가능한지 힌트 */}
+      {["no-api", "unavailable", "error"].includes(status?.status) && cap.hint && (
+        <div className="cap-hint">💡 {cap.hint}</div>
+      )}
+      {status?.status === "unavailable" && cap.unavailableTip && (
+        <div className="cap-hint cap-hint--tip">🔧 {cap.unavailableTip}</div>
+      )}
+
       {(canTest || canPlay) && (
         <div className="cap-actions">
           {canPlay && (
