@@ -1,11 +1,16 @@
-import { KIND_LABEL, STATUS_LABEL } from "../capabilities";
+import { useState } from "react";
 
-// 능력 카드 — 상태 배지 + 검증/다운로드 액션 + 결과 표시
+import { KIND_LABEL, STATUS_LABEL, PLAYGROUNDS } from "../capabilities";
+import Playground from "./Playground";
+
+// 능력 카드 — 상태 배지 + 검증/실습/다운로드 액션 + 결과 표시
 export default function CapCard({ cap, status, test, downloading, onTest, onDownload }) {
+  const [showPg, setShowPg] = useState(false);
   const kind = KIND_LABEL[cap.kind];
   const st = STATUS_LABEL[status?.status] || { name: "확인 중...", color: "var(--muted)" };
   const canTest = status?.status === "available" || status?.status === "supported";
   const canDownload = status?.status === "downloadable";
+  const canPlay = status?.status === "available" && PLAYGROUNDS[cap.id];
 
   return (
     <div className="cap-card">
@@ -21,11 +26,25 @@ export default function CapCard({ cap, status, test, downloading, onTest, onDown
       <div className="cap-desc">{cap.desc}</div>
       {status?.note && <div className="cap-note">{status.note}</div>}
 
-      {canTest && (
-        <button className="btn cap-action" disabled={test?.running} onClick={() => onTest(cap.id)}>
-          {test?.running ? "검증 중..." : test ? "다시 검증" : "실동작 검증"}
-        </button>
+      {(canTest || canPlay) && (
+        <div className="cap-actions">
+          {canPlay && (
+            <button className="btn cap-action" onClick={() => setShowPg((v) => !v)}>
+              {showPg ? "실습 접기" : "직접 실습해 보기"}
+            </button>
+          )}
+          {canTest && (
+            <button
+              className={`btn cap-action ${canPlay ? "cap-action--sub" : ""}`}
+              disabled={test?.running}
+              onClick={() => onTest(cap.id)}
+            >
+              {test?.running ? "검증 중..." : test ? "다시 검증" : "실동작 검증"}
+            </button>
+          )}
+        </div>
       )}
+      {showPg && canPlay && <Playground capId={cap.id} />}
       {canDownload && (
         <button className="btn cap-action cap-action--download" disabled={downloading != null} onClick={() => onDownload(cap)}>
           {downloading != null ? `다운로드 중 ${downloading}%` : "모델 다운로드 (수백 MB~수 GB, 와이파이 권장)"}

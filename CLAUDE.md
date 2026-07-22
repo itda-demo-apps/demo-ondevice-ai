@@ -32,7 +32,8 @@ src/
     ContactView.jsx      # 문의 폼 (시리즈 공용 패턴)
   components/
     Header.jsx           # 로고 + 진단/문의 탭
-    CapCard.jsx          # 능력 카드 — 상태 배지·검증/다운로드 버튼·결과 표시
+    CapCard.jsx          # 능력 카드 — 상태 배지·검증/실습/다운로드 버튼·결과 표시
+    Playground.jsx       # 실습 패널 — 사용자 입력을 직접 AI에 넣어 실행(Prompt는 스트리밍)
     InstallHint.jsx      # 홈 화면 추가 안내 (시리즈 공용)
     SeriesLinks.jsx      # 시리즈 링크 푸터
 api/contact.js           # 문의 폼 → Telegram (Vercel 함수)
@@ -45,6 +46,7 @@ scripts/                 # PIL 아이콘/OG/스플래시 (칩+상태점 도안)
 - **다운로드 가드가 이 앱의 안전핀**: `create()`는 downloadable 상태에서 모델 다운로드(수백 MB~수 GB)를 유발한다 — 자동 호출 금지, `triggerDownload()`는 사용자 버튼으로만, `monitor`의 downloadprogress로 진행률 표시. 완료 후 해당 항목만 재탐지.
 - **API 표면 변동 대응**: 모든 호출 try/catch — 실패는 status "error"/검증 실패로 정직하게 표시. 브라우저 릴리즈마다 표면이 바뀌므로 고치기보다 **드러내는** 것이 앱의 역할. 신규 API 추가는 CAPS 배열 + TESTS 맵에 항목 추가.
 - **분류**: stable(Chrome 148+ 정식: Prompt/Summarizer/Translator/LanguageDetector) | trial(Writer/Rewriter/Proofreader — 토큰 없인 대부분 no-api) | base(WebGPU/WebNN). 검증일 2026-07-22 기준 — 갱신 시 이 날짜도 갱신할 것.
+- **실습(PLAYGROUNDS)**: available 항목은 "직접 실습해 보기"로 사용자 입력을 실제 실행 — Prompt는 `promptStreaming` 스트리밍 표시, 나머지는 단발 호출. 인스턴스는 항목별 캐시(`cached()`)로 재실행 가속. 기본 입력값은 회사원 유즈케이스(보고체 변환·회의록 요약·미팅 문의 번역)로 유용성을 바로 체감시키는 것이 목적(마스터 피드백 2026-07-22 "검증만 있고 실습이 없다").
 - **무전송 원칙**: 진단·검증·리포트 전부 클라이언트. 네트워크 요청 0 (모델 다운로드 제외) — 시연 시 개발자도구 네트워크 탭이 킬러 장면.
 
 ## 규약 (데모 시리즈 공통)

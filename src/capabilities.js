@@ -187,6 +187,95 @@ export async function runTest(capId) {
   }
 }
 
+// ─── 실습(플레이그라운드) — 사용 가능 항목에서 사용자가 직접 입력을 넣어 돌려본다 ───
+// 인스턴스는 항목별로 캐시해 재실행을 빠르게 한다(생성이 수 초 걸릴 수 있음).
+const instances = {};
+
+async function cached(id, create) {
+  if (!instances[id]) instances[id] = await create();
+  return instances[id];
+}
+
+export const PLAYGROUNDS = {
+  prompt: {
+    label: "무엇이든 시켜보세요",
+    placeholder: "예: 아래 문장을 정중한 보고체로 바꿔줘 / 점심 메뉴 3개 추천해줘",
+    defaultInput: "이 문장을 정중한 보고 문장으로 바꿔줘: 내일까지 이거 해줘",
+    async run(input, onChunk) {
+      const s = await cached("prompt", () => LanguageModel.create());
+      if (s.promptStreaming && onChunk) {
+        let full = "";
+        for await (const chunk of s.promptStreaming(input)) {
+          full += chunk;
+          onChunk(full);
+        }
+        return full;
+      }
+      return s.prompt(input);
+    },
+  },
+  summarizer: {
+    label: "긴 글을 붙여넣고 요약해 보세요",
+    placeholder: "회의록·기사·보고서 등 긴 글을 붙여넣으세요",
+    defaultInput:
+      "온디바이스 AI는 클라우드 서버로 데이터를 보내지 않고 기기 안에서 모델을 실행하는 방식이다. 개인정보가 기기 밖으로 나가지 않아 보안 제약이 있는 조직에서도 쓸 수 있고, 네트워크 없이 동작하며, 호출할 때마다 비용이 드는 클라우드 API와 달리 사용료가 없다. 다만 모델 크기와 기기 성능의 제약으로 최신 클라우드 모델보다 품질이 낮을 수 있어, 요약·분류·초안처럼 실패해도 위험이 작은 작업부터 적용하는 것이 좋다.",
+    async run(input) {
+      const s = await cached("summarizer", () => Summarizer.create({ type: "tldr", length: "short" }));
+      return s.summarize(input);
+    },
+  },
+  translator: {
+    label: "한국어 → 영어 번역해 보세요",
+    placeholder: "번역할 한국어 문장을 입력하세요",
+    defaultInput: "안녕하세요. 다음 주 화요일 오후 3시에 미팅 가능하실까요?",
+    async run(input) {
+      const s = await cached("translator", () => Translator.create({ sourceLanguage: "ko", targetLanguage: "en" }));
+      return s.translate(input);
+    },
+  },
+  detector: {
+    label: "아무 언어나 입력해 보세요 — 무슨 언어인지 맞힙니다",
+    placeholder: "예: Bonjour / こんにちは / Hola",
+    defaultInput: "Bonjour, comment allez-vous?",
+    async run(input) {
+      const d = await cached("detector", () => LanguageDetector.create());
+      const results = await d.detect(input);
+      return results
+        .slice(0, 3)
+        .map((r) => `${r.detectedLanguage} (${(r.confidence * 100).toFixed(1)}%)`)
+        .join("\n");
+    },
+  },
+  writer: {
+    label: "쓸 글의 주제를 알려주세요",
+    placeholder: "예: 신제품 출시를 알리는 사내 공지문",
+    defaultInput: "신제품 출시를 알리는 사내 공지문",
+    async run(input) {
+      const w = await cached("writer", () => Writer.create({ tone: "formal", length: "short" }));
+      return w.write(input);
+    },
+  },
+  rewriter: {
+    label: "다듬을 문장을 입력하세요 — 더 정중하게 바꿉니다",
+    placeholder: "예: 내일까지 이거 해줘",
+    defaultInput: "내일까지 이거 해줘",
+    async run(input) {
+      const r = await cached("rewriter", () => Rewriter.create({ tone: "more-formal" }));
+      return r.rewrite(input);
+    },
+  },
+  proofreader: {
+    label: "교정할 문장을 입력하세요",
+    placeholder: "맞춤법·문법이 틀린 문장을 넣어보세요",
+    defaultInput: "나는 어제 회의를 갔다왔다",
+    async run(input) {
+      const p = await cached("proofreader", () => Proofreader.create());
+      const out = await p.proofread(input);
+      return typeof out === "string" ? out : (out.correctedInput ?? JSON.stringify(out));
+    },
+  },
+};
+
 // downloadable 상태에서 명시적 다운로드 트리거 — 진행률 콜백 제공
 export async function triggerDownload(cap, onProgress) {
   const obj = apiObject(cap);
