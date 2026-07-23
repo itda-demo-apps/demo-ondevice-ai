@@ -40,6 +40,15 @@ api/contact.js           # 문의 폼 → Telegram (Vercel 함수)
 scripts/                 # PIL 아이콘/OG/스플래시 (칩+상태점 도안)
 ```
 
+## URL 라우팅
+
+`src/router.js`(의존성 없는 history API — `parseLocation`·`navigate`·`useRoute`)가 화면 상태의 진실 소스. `vercel.json`이 SPA 딥링크를 `index.html`로 리라이트한다.
+
+| 경로 | 화면 |
+|---|---|
+| `/` | 진단(홈) |
+| `/contact` | 문의 |
+
 ## 핵심 로직 (`capabilities.js`)
 
 - **3단계 진단**: ① `api in self` 존재 확인 → ② `availability()` (translator는 ko→en 언어쌍 인자) → ③ available일 때만 `runTest()`로 실호출·지연 측정. WebGPU는 `requestAdapter()`(어댑터 정보 노트), WebNN은 `navigator.ml` 존재만.
